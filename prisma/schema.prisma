@@ -1,0 +1,60 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Females {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  description String
+  image1      String
+  image2      String
+  image3      String
+  image4      String
+  issale      String
+  name        String
+  oldprice    String
+  price       String
+}
+
+model Males {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  description String
+  image1      String
+  image2      String
+  image3      String
+  image4      String
+  issale      String
+  name        String
+  oldprice    String
+  price       String
+}
+
+model Plants {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  description String
+  image1      String
+  image2      String
+  image3      String
+  image4      String
+  issale      String
+  name        String
+  oldprice    String
+  price       String
+}
+
+model TestGecko {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  description String
+  image1      String
+  image2      String
+  image3      String
+  image4      String
+  issale      String
+  name        String
+  oldprice    String
+  price       String
+}
