@@ -14,7 +14,6 @@ export async function POST(request: Request) {
 
   const files = await request.formData()
   const listingId = files.get("id") as string
-  console.log(listingId)
   const sitePage = files.get("sitePage") as string
   const cursor = await client.db("Products").collection(sitePage).findOne({"_id": new ObjectId(listingId)});
   return Response.json(cursor)

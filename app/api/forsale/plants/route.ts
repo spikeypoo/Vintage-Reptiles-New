@@ -15,7 +15,6 @@ export async function GET() {
   
   const cursor = await prisma.plants.findMany({select: {id: true, name: true, price: true, image1: true , issale: true, oldprice: true, description: true}})
   const newvar = (Date.now() - time);
-  console.log(String(newvar));
   
   return Response.json(cursor);
 }
@@ -23,7 +22,6 @@ export async function GET() {
 
 export async function POST(request: Request){
   const files = await request.formData()
-  console.log("files are now uploading")
 
   const client = await connect;
   client.db("Products").collection("Plants").insertOne({

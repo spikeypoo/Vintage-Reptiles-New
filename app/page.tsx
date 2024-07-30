@@ -11,7 +11,7 @@ import { useEffect } from 'react'
 
 export default function Home() {
   return (
-    <div className="md:flex md:justify-center md:pt-[200px] mb-[75px]">
+    <div className="md:flex md:justify-center md:pt-[100px] mb-[75px]">
       <br />
       <div className="flex justify-center shrink-0 items-center">
         <Image src="/images/logo-bg.png" width = {400} height={330} className="max-w-[85%] md:w-[654px] md:h-[540px] drop-shadow-2xl" alt="Vintage Reptiles"></Image>

@@ -33,14 +33,42 @@ export default function ListingDetails({ params }) {
     };
 
     if (loading) {
-        return <div className="flex h-[1000px] justify-center items-center"><div className="flex h-[700px] w-[80%] pb-[950px] md:pb-0 animate-pulse max-w-[1000px] bg-[#2c2c2c] rounded-3xl"></div></div>; // Display a loading indicator
+        return (
+            <div>
+                <div className={"flex relative md:h-screen md:max-h-[1000px] justify-center md:pt-[150px] md:mb-0"}>
+                    <div className="flex justify-center md:scale-110">
+                        <div className="absolute top-[-10px] md:static md:flex md:scale-90 scale-[80%] md:mt-0 md:pt-0 md:pb-0">
+                            <div className="md:scale-110 scale-90">
+                                <div className="relative w-[400px] h-[400px]">
+                                    <div className="table m-auto md:m-0 transition ease-in-out w-[400px] h-[400px] outline outline-4 outline-[#202020] bg-[#2c2c2c] rounded-xl drop-shadow-xl duration-200 md:mr-[100px] md:ml-[100px] animate-pulse"></div>
+                                </div>
+                                <div className="flex pt-[20px] md:mr-[100px] md:ml-[100px] space-x-5 w-[400px] justify-center">
+                                    <div className={`transition h-[80px] w-[80px] ease-in-out rounded-md drop-shadow-xl outline-[#202020] bg-[#2c2c2c] animate-pulse`}></div>
+                                    <div className={`transition h-[80px] w-[80px] ease-in-out rounded-md drop-shadow-xl outline-[#202020] bg-[#2c2c2c] animate-pulse`}></div>
+                                    <div className={`transition h-[80px] w-[80px] ease-in-out rounded-md drop-shadow-xl outline-[#202020] bg-[#2c2c2c] animate-pulse`}></div>
+                                    <div className={`transition h-[80px] w-[80px] ease-in-out rounded-md drop-shadow-xl outline-[#202020] bg-[#2c2c2c] animate-pulse`}></div>
+                                </div>
+                            </div>
+                            <div className="absolute md:static pr-[140px] md:pb-[80px]">
+                                <div className="w-[125px] h-[40px] rounded-lg bg-[#2c2c2c] animate-pulse"></div>
+                                <br />
+                                <p className="w-[330px] h-[40px] rounded-lg bg-[#2c2c2c] animate-pulse"></p>
+                                <br />
+                                <p className="w-[350px] h-[120px] rounded-lg bg-[#2c2c2c] animate-pulse"/>
+                                <br /><br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        )
     }
 
     return (
         <div>
-            <div className={"flex relative md:h-screen md:max-h-[1000px] justify-center md:items-center md:mb-0"}>
+            <div className={"flex relative md:h-screen md:max-h-[1000px] justify-center md:pt-[150px] md:mb-0"}>
                 <div className="flex justify-center md:scale-110">
-                    <div className="absolute top-[-10px] md:static md:flex items-center md:scale-90 scale-[80%] md:mt-0 md:pt-0 md:pb-0">
+                    <div className="absolute top-[-10px] md:static md:flex md:scale-90 scale-[80%] md:mt-0 md:pt-0 md:pb-0">
                         <div className="md:scale-110 scale-90">
                             <div className="relative w-[400px] h-[400px]">
                                 <Image unoptimized loading="eager" src={focused} alt="Listing" width={400} height={400} className="table m-auto md:m-0 transition ease-in-out w-[400px] h-[400px] outline outline-4 outline-white rounded-xl drop-shadow-xl duration-200 md:mr-[100px] md:ml-[100px] md:w-400 md:h-400 md:inline"></Image>

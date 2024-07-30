@@ -26,9 +26,9 @@ export default function RootLayout({
         <div className="flex bg-[#161414] w-screen h-[66px] md:h-28 border-b justify-center sticky top-0 z-10">
           <div className="hidden md:flex md:text-white md:text-xl md:space-x-10 md:items-center md:whitespace-nowrap">
             <div className="w-[90px] h-[83.5px]">
-              <Link href="./"><Image className="transition ease-in-out hover:scale-105 duration-200 cursor-pointer overflow-hidden" src='/images/logo-bg.png' width={90} height={83.5} alt="Vintage Reptiles"></Image></Link>
+              <Link href="/"><Image className="transition ease-in-out hover:scale-105 duration-200 cursor-pointer overflow-hidden" src='/images/logo-bg.png' width={90} height={83.5} alt="Vintage Reptiles"></Image></Link>
             </div>
-            <Link href="./"><button className="transition ease-in-out hover:text-[#cb18db] hover:scale-95 duration-200">Home</button></Link>
+            <Link href="/"><button className="transition ease-in-out hover:text-[#cb18db] hover:scale-95 duration-200">Home</button></Link>
             <Link href="/tos"><button className="transition ease-in-out hover:text-[#cb18db] hover:scale-95 duration-200">Terms of Service</button></Link>
             <Link href="/availability"><button className="transition ease-in-out hover:text-[#cb18db] hover:scale-95 duration-200">Geckos</button></Link>
             <Link href="/plants"><button className="transition ease-in-out hover:text-[#cb18db] hover:scale-95 duration-200">Plants</button></Link>

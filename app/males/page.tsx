@@ -6,21 +6,20 @@ import '../globals.css';
 import { useState, useEffect, useRef, useCallback } from 'react';
 
 export default function Home() {
-  console.log("page opened")
   const [cards, setCards] = useState([]);
   const [visibleCards, setVisibleCards] = useState(20);
   const [loading, setLoading] = useState(false);
+  const [moreLoading, setMoreLoading] = useState(true)
   const observer = useRef();
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      console.log("fetching")
       const result = await fetch('/api/forsale/males', {cache: 'force-cache'});
-      console.log("fetched!")
       const data = await result.json();
       setCards(data);
       setLoading(false);
+      setMoreLoading(false)
     };
 
     fetchData();
@@ -61,6 +60,25 @@ export default function Home() {
       setLoading(false);
     }
   }, [visibleCards, cards.length]);
+
+  const tempCards = Array.from({ length: 20 }, (_, index) => (
+    <TempCard key={index} />
+  ));
+
+  if (moreLoading)
+  {
+      return (
+        <div>
+          <br />
+          <br />
+          <div className="flex justify-center">
+            <div id="products" className="absolute md:flex md:mt-[39px] max-w-[1000px] w-[90%] gap-[40px] md:flex-wrap">
+              {tempCards}
+            </div>
+          </div>
+        </div>
+      )
+  }
 
   return (
     <div>
@@ -117,3 +135,21 @@ const Card = ({ index, name, price, image1, issale, oldprice, id}) => {
     </div>
   );
 };
+
+const TempCard = () => {
+  return (
+    <div>
+      <div className="w-[200px] relative md:block left-1/2 -translate-x-1/2 scale-125 mb-[110px] md:left-0 md:-translate-x-0 md:scale-100 md:mb-[32px]">
+        <div className="flex md:flex-wrap md:flex-row">
+          <div className="relative">
+            <div className="flex justify-center md:mb-[10px]">
+              <div className="pb-[5px] md:absolute md:-translate-y-[100%] w-[160px] h-[30px] bg-[#2c2c2c] mb-[10px] rounded-lg animate-pulse"></div>
+            </div>
+            <div className="w-[200px] h-[200px] outline outline-4 outline-[#202020] rounded-lg bg-[#2c2c2c] animate-pulse"></div>
+            <div className="flex justify-center"><div className="bg-[#2c2c2c] w-[80px] h-[30px] rounded-lg animate-pulse mt-[10px]"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

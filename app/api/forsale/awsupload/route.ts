@@ -11,7 +11,6 @@ import { ObjectId } from 'bson';
 
 export async function POST(request: Request){
   const files = await request.formData()
-  console.log("files are now uploading")
 
   const s3 = new S3Client({
     region: process.env.AWS_REGION,
@@ -20,8 +19,6 @@ export async function POST(request: Request){
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY as string,
     },
   });
-
-  console.log(files.get("imagename"))
 
   let filename = files.get("imagename") as string
 
