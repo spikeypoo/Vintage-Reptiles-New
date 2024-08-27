@@ -57,6 +57,7 @@ export default function Home() {
               oldprice={element.oldprice}
               id={element.id}
               routeData={routeData}
+              productbool={element.productbool}
             />
           ));
           let container = document.getElementById("edit2")
@@ -316,7 +317,7 @@ export default function Home() {
   );
 }
 
-const Card = ({name, description, price, image1, image2, image3, image4, issale, oldprice, id, routeData}) => {
+const Card = ({name, description, price, image1, image2, image3, image4, issale, oldprice, id, routeData, productbool}) => {
     const [isClicked, setIsClicked] = useState(false);
   
     const handleClick = () => {
@@ -335,7 +336,7 @@ const Card = ({name, description, price, image1, image2, image3, image4, issale,
               </div>
             </div>
           </div>
-          <ModalEdit onClose={() => setIsClicked(false)} isClicked={isClicked} name={name} description={description} price={price} image1={image1} image2={image2} image3={image3} image4={image4} id={id} issale2={issale} routeData={routeData} oldprice={oldprice}/>
+          <ModalEdit onClose={() => setIsClicked(false)} isClicked={isClicked} name={name} description={description} price={price} image1={image1} image2={image2} image3={image3} image4={image4} id={id} issale2={issale} routeData={routeData} oldprice={oldprice} productbool={productbool}/>
       </div>
     );
   }
@@ -359,12 +360,12 @@ const Card = ({name, description, price, image1, image2, image3, image4, issale,
               </div>
             </div>
           </div>
-          <ModalRemove onClose={() => setIsClicked(false)} isClicked={isClicked} name={name} description={description} price={price} image1={image1} image2={image2} image3={image3} image4={image4} id={id} routeData={routeData} />
+          <ModalRemove onClose={() => setIsClicked(false)} isClicked={isClicked} name={name} description={description} price={price} image1={image1} image2={image2} image3={image3} image4={image4} id={id} routeData={routeData}/>
       </div>
     );
   }
 
-  const ModalEdit = ({ onClose, isClicked, name, description, price, image1, image2, image3, image4, id, issale2, routeData, oldprice}) => {
+  const ModalEdit = ({ onClose, isClicked, name, description, price, image1, image2, image3, image4, id, issale2, routeData, oldprice, productbool}) => {
     const [focused, setFocused] = useState(image1)
 
     const [formData, setFormData] = useState({name: name ,description: description,price: price, oldprice: oldprice});
@@ -376,6 +377,8 @@ const Card = ({name, description, price, image1, image2, image3, image4, issale,
     const [isSale, setSale] = useState(issale2 == "true")
     const [olderPrice, setOldPrice] = useState(oldprice)
     const [currentSale, setCurrentSale] = useState(false)
+
+    const [isProduct, setProduct] = useState(productbool)
     
     const handleExit = () =>
       {
@@ -498,6 +501,11 @@ const Card = ({name, description, price, image1, image2, image3, image4, issale,
         setSale(!isSale)
       }
 
+      function handleProductChange(event)
+      {
+        setSale(!isSale)
+      }
+
       function handleSaleChange2(event)
       {
         const { name, value } = event.target;
@@ -524,6 +532,10 @@ const Card = ({name, description, price, image1, image2, image3, image4, issale,
                     <div className="text-white pb-1 text-xl pt-10 flex justify-center">Price</div>
                     <label className="flex justify-center">
                         <input className="rounded-lg pb-2 bg-gray-700 text-gray-200 border border-gray-600 p-2.5" type="text" value={formData.price} name="price" onChange={handleChange}/>
+                    </label>
+                    <div className="text-white pb-1 text-xl pt-10 flex justify-center">Is this a product?</div>
+                    <label className="flex justify-center">
+                      <input className="rounded-lg pb-2 bg-gray-700 text-gray-200 border border-gray-600 p-2.5" type="checkbox" onChange={handleProductChange} checked={isSale}/>
                     </label>
                     <div className="text-white pb-1 text-xl pt-10 flex justify-center">Sale</div>
                     <label className="flex justify-center">
