@@ -22,6 +22,10 @@ export default function Home() {
         <img src="/images/2024/gamoraxneo.jpg" width={500} height={500} alt="img" className="w-[80%] max-w-[500px] outline rounded-lg outline-white"></img>
       </div>
 
+      <div className="flex justify-center space-y-10 pt-[49px]">
+        <img src="/images/2024/famexpen.JPEG" width={500} height={500} alt="img" className="w-[80%] max-w-[500px] outline rounded-lg outline-white"></img>
+      </div>
+
       <br></br><br></br><br></br><br></br><br></br>
       
     </div>

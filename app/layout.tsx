@@ -4,6 +4,7 @@ import "./globals.css";
 import Image from "next/image";
 import Link from 'next/link';
 import MenuButton from './menubutton';
+import CartNumber from './cartnum';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -30,8 +31,9 @@ export default function RootLayout({
             </div>
             <Link href="/"><button className="transition ease-in-out hover:text-[#cb18db] hover:scale-95 duration-200">Home</button></Link>
             <Link href="/tos"><button className="transition ease-in-out hover:text-[#cb18db] hover:scale-95 duration-200">Terms of Service</button></Link>
-            <Link href="/availability"><button className="transition ease-in-out hover:text-[#cb18db] hover:scale-95 duration-200">Geckos</button></Link>
-            <Link href="/plants"><button className="transition ease-in-out hover:text-[#cb18db] hover:scale-95 duration-200">Plants</button></Link>
+            <Link href="/shop/availability"><button className="transition ease-in-out hover:text-[#cb18db] hover:scale-95 duration-200">Geckos</button></Link>
+            <Link href="/shop/plants"><button className="transition ease-in-out hover:text-[#cb18db] hover:scale-95 duration-200">Plants</button></Link>
+            <Link href="/shop/prints"><button className="transition ease-in-out hover:text-[#cb18db] hover:scale-95 duration-200">3D Prints</button></Link>
             <div className="group relative">
               <button className="transition ease-in-out group-hover:text-[#cb18db] group-hover:scale-95 duration-200">Pairings</button>
               <ul className="transition opacity-0 ease-in-out absolute block top-[-20%] group-hover:translate-y-[30px] group-hover:opacity-100 group-hover:pointer-events-auto group-hover:pt-4 duration-100 pointer-events-none scale-110 drop-shadow-xl">
@@ -42,8 +44,9 @@ export default function RootLayout({
                 </div>
               </ul>
             </div>
-            <Link href="/males"><button className="transition ease-in-out hover:text-[#cb18db] hover:scale-95 duration-200">Males</button></Link>
-            <Link href="/females"><button className="transition ease-in-out hover:text-[#cb18db] hover:scale-95 duration-200">Females</button></Link>
+            <Link href="/shop/males"><button className="transition ease-in-out hover:text-[#cb18db] hover:scale-95 duration-200">Males</button></Link>
+            <Link href="/shop/females"><button className="transition ease-in-out hover:text-[#cb18db] hover:scale-95 duration-200">Females</button></Link>
+            <Link href="/cart" className="relative"><img src="/images/shoppingbag.png" className="w-[30px] transition ease-in-out fill-white hover:text-[#cb18db] hover:scale-95 duration-200"></img><CartNumber></CartNumber></Link>
           </div>
           <div className="flex-1 md:hidden"></div>
           <div className="flex items-center md:hidden">

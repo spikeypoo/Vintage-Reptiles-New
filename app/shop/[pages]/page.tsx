@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import Link from 'next/link';
-import '../globals.css';
+import '@/app/globals.css';
 import { useState, useEffect, useRef, useCallback } from 'react';
 
-export default function Home() {
+export default function PageDetails({ params }) {
   const [cards, setCards] = useState([]);
   const [visibleCards, setVisibleCards] = useState(20);
   const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const result = await fetch('/api/forsale', {cache: 'force-cache'});
+      const result = await fetch('/api/forsale/' + params.pages, {cache: 'force-cache'});
       const data = await result.json();
       setCards(data);
       setLoading(false);
@@ -85,7 +85,7 @@ export default function Home() {
       <br />
       <br />
       <div className="flex justify-center">
-        <div id="products" className="absolute md:flex md:mt-[39px] max-w-[1000px] w-[90%] gap-[40px] md:flex-wrap">
+        <div id="products" className="absolute md:flex md:mt-[39px] max-w-[1000px] w-[90%] gap-[40px] md:flex-wrap pb-[50px]">
           {cards.slice(0, visibleCards).map((element, index) => (
             <Card
               key={element.id}
@@ -96,6 +96,7 @@ export default function Home() {
               issale={element.issale}
               oldprice={element.oldprice}
               id={element.id}
+              params={params}
             />
           ))}
         </div>
@@ -115,9 +116,9 @@ export default function Home() {
   );
 }
 
-const Card = ({ index, name, price, image1, issale, oldprice, id}) => {
+const Card = ({ index, name, price, image1, issale, oldprice, id, params}) => {
   const [isClicked, setIsClicked] = useState(false);
-  const toListing = "/availability/" + id
+  const toListing = "/shop/" + params.pages + "/" + params.pages + "-" + id
 
   return (
     <div id={`card-${index}`}>
@@ -127,7 +128,7 @@ const Card = ({ index, name, price, image1, issale, oldprice, id}) => {
             <div className="flex justify-center">
               <p className="text-center text-white text-lg pb-[5px] md:absolute md:top-0 md:-translate-y-[100%]">{name}</p>
             </div>
-            <Link href={toListing}><Image priority={true} src={image1} width={200} height={200} alt="Listing" className="transition ease-in-out w-[200px] h-[200px] outline outline-4 outline-white rounded-lg cursor-pointer drop-shadow-xl duration-200"></Image></Link>
+            <Link href={toListing}><Image src={image1} priority={true} width={200} height={200} alt="Listing" className="transition ease-in-out w-[200px] h-[200px] outline outline-4 outline-white rounded-lg cursor-pointer drop-shadow-xl duration-200"></Image></Link>
             {price !== "" && (<p className={(issale === "true") ? "text-center text-red-500 text-lg pt-[5px]" : "text-center text-white text-lg pt-[5px]"}>${price}.00</p>)}
             {issale === "true" && (
               <div className="line-through text-center text-white text-lg -translate-y-1">

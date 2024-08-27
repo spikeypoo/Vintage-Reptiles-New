@@ -13,7 +13,7 @@ import { prisma } from "@/app/lib/prisma";
 export async function GET() {
   const time = Date.now();
   
-  const cursor = await prisma.males.findMany({select: {id: true, name: true, price: true, image1: true , issale: true, oldprice: true, description: true}})
+  const cursor = await prisma.males.findMany({select: {id: true, name: true, price: true, image1: true , issale: true, oldprice: true, description: true}, orderBy: {id: 'desc'}})
   const newvar = (Date.now() - time);
   
   return Response.json(cursor);

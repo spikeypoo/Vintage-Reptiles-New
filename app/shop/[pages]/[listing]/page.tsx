@@ -13,15 +13,16 @@ export default function ListingDetails({ params }) {
     useEffect(() => {
         const fetchData = async () => {
             const body = new FormData();
-            body.append("id", params.listing);
-            body.append("sitePage", "Plants");
+            let items = params.listing.split("-")
+            body.append("id", items[1]);
+            body.append("sitePage", items[0]);
             fetch("/api/forsale/getlisting", {method: "POST", body, cache: 'force-cache'})
                 .then(async function(result) {
                     const dat = await result.json();
                     const new_dat = await JSON.parse(JSON.stringify(dat));
                     setData(new_dat);
                     setFocused(new_dat.image1.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/"));
-                    setLoading(false); // Set loading to false after data is fetched
+                    setLoading(false);
                 });
         };
     
@@ -31,6 +32,36 @@ export default function ListingDetails({ params }) {
     const getBorderStyle = (imageUrl) => {
         return imageUrl === focused ? "outline outline-4 outline-white scale-105 brightness-50" : "outline outline-4 outline-white";
     };
+
+    const handleAdd = () =>
+    {
+        document.getElementById("addbutton").innerHTML = "Adding..."
+        document.getElementById("addbutton")?.classList.add("brightness-50")
+        document.getElementById("addbutton")?.classList.remove("hover:brightness-75")
+        document.getElementById("addbutton")?.classList.remove("cursor-pointer")
+        let current = localStorage.getItem("Cart")
+        if (current == null)
+        {
+            localStorage.setItem("Cart", "{}")
+        }
+        current = JSON.parse(localStorage.getItem("Cart"))
+        
+        if (params.listing.split("-")[1] in current)
+        {
+            current[params.listing.split("-")[1]].quantity += 1
+            localStorage.setItem("Cart", JSON.stringify(current))
+        }
+        else
+        {
+            current[params.listing.split("-")[1]] = {name: listingData.name, price: listingData.price, image: listingData.image1, quantity: 1, priceID: listingData.priceid}
+            console.log(current)
+            localStorage.setItem("Cart", JSON.stringify(current))
+        }
+
+        console.log(localStorage.getItem("Cart"))
+
+        location.reload()
+    }
 
     if (loading) {
         return (
@@ -71,20 +102,20 @@ export default function ListingDetails({ params }) {
                     <div className="absolute top-[-10px] md:static md:flex md:scale-90 scale-[80%] md:mt-0 md:pt-0 md:pb-0">
                         <div className="md:scale-110 scale-90">
                             <div className="relative w-[400px] h-[400px]">
-                                <Image unoptimized loading="eager" src={focused} alt="Listing" width={400} height={400} className="table m-auto md:m-0 transition ease-in-out w-[400px] h-[400px] outline outline-4 outline-white rounded-xl drop-shadow-xl duration-200 md:mr-[100px] md:ml-[100px] md:w-400 md:h-400 md:inline"></Image>
+                                <img src={focused} alt="Listing" width={400} height={400} className="table m-auto md:m-0 transition ease-in-out w-[400px] h-[400px] outline outline-4 outline-white rounded-xl drop-shadow-xl duration-200 md:mr-[100px] md:ml-[100px] md:w-400 md:h-400 md:inline"></img>
                             </div>
                             <div className="flex pt-[20px] md:mr-[100px] md:ml-[100px] space-x-5 w-[400px] justify-center">
                                 {listingData.image1 !== "" && (
-                                    <Image priority={true} src={listingData.image1.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/")} width={80} height={80} alt="Listing" className={`transition h-[80px] w-[80px] ease-in-out ${getBorderStyle(listingData.image1.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/"))} rounded-md drop-shadow-xl cursor-pointer hover:scale-105 hover:brightness-50 duration-200`} onClick={() => setFocused(listingData.image1.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/"))}></Image>
+                                    <img src={listingData.image1.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/")} width={80} height={80} alt="Listing" className={`transition h-[80px] w-[80px] ease-in-out ${getBorderStyle(listingData.image1.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/"))} rounded-md drop-shadow-xl cursor-pointer hover:scale-105 hover:brightness-50 duration-200`} onClick={() => setFocused(listingData.image1.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/"))}></img>
                                 )}
                                 {listingData.image2 !== "" && (
-                                    <Image priority={true} src={listingData.image2.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/")} width={80} height={80} alt="Listing" className={`transition h-[80px] w-[80px] ease-in-out ${getBorderStyle(listingData.image2.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/"))} rounded-md drop-shadow-xl cursor-pointer hover:scale-105 hover:brightness-50 duration-200`} onClick={() => setFocused(listingData.image2.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/"))}></Image>
+                                    <img src={listingData.image2.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/")} width={80} height={80} alt="Listing" className={`transition h-[80px] w-[80px] ease-in-out ${getBorderStyle(listingData.image2.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/"))} rounded-md drop-shadow-xl cursor-pointer hover:scale-105 hover:brightness-50 duration-200`} onClick={() => setFocused(listingData.image2.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/"))}></img>
                                 )}
                                 {listingData.image3 !== "" && (
-                                    <Image priority={true} src={listingData.image3.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/")} width={80} height={80} alt="Listing" className={`transition h-[80px] w-[80px] ease-in-out ${getBorderStyle(listingData.image3.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/"))} rounded-md drop-shadow-xl cursor-pointer hover:scale-105 hover:brightness-50 duration-200`} onClick={() => setFocused(listingData.image3.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/"))}></Image>
+                                    <img src={listingData.image3.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/")} width={80} height={80} alt="Listing" className={`transition h-[80px] w-[80px] ease-in-out ${getBorderStyle(listingData.image3.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/"))} rounded-md drop-shadow-xl cursor-pointer hover:scale-105 hover:brightness-50 duration-200`} onClick={() => setFocused(listingData.image3.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/"))}></img>
                                 )}
                                 {listingData.image4 !== "" && (
-                                    <Image priority={true} src={listingData.image4.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/")} width={80} height={80} alt="Listing" className={`transition h-[80px] w-[80px] ease-in-out ${getBorderStyle(listingData.image4.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/"))} rounded-md drop-shadow-xl cursor-pointer hover:scale-105 hover:brightness-50 duration-200`} onClick={() => setFocused(listingData.image4.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/"))}></Image>
+                                    <img src={listingData.image4.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/")} width={80} height={80} alt="Listing" className={`transition h-[80px] w-[80px] ease-in-out ${getBorderStyle(listingData.image4.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/"))} rounded-md drop-shadow-xl cursor-pointer hover:scale-105 hover:brightness-50 duration-200`} onClick={() => setFocused(listingData.image4.replace("vintage-reptiles-storage.s3.us-east-2.amazonaws.com/", "d3ke37ygqgdiqe.cloudfront.net/"))}></img>
                                 )}
                             </div>
                         </div>
@@ -105,8 +136,9 @@ export default function ListingDetails({ params }) {
                             <br />
                             <p className="text-white align-top text-4xl font-bold">{listingData.name}</p>
                             <br />
-                            <p className="text-white align-top text-xl" dangerouslySetInnerHTML={{ __html: listingData.description.replace(/(\n)+/g, '<br />') }} />
+                            <p className="text-white align-top text-xl outline rounded-sm outline-offset-[10px] w-[400px] outline-2 md:w-auto" dangerouslySetInnerHTML={{ __html: listingData.description.replace(/(\n)+/g, '<br />') }} />
                             <br /><br />
+                            <div id="addbutton" className="font-bold text-white bg-[#9d00ff] w-[175px] h-[50px] flex items-center justify-center rounded-full text-lg outline outline-3 scale-[110%] cursor-pointer hover:brightness-75" onClick={handleAdd}>Add to cart</div>
                         </div>
                     </div>
                 </div>

@@ -33,7 +33,7 @@ export default function Home() {
     const [image3Data, setimg3Data] = useState()
     const [image4Data, setimg4Data] = useState()
 
-    const [routeData, setRoute] = useState("/api/forsale")
+    const [routeData, setRoute] = useState("/api/forsale/availability")
 
     const [isSale, setSale] = useState(false)
     const [olderPrice, setOldPrice] = useState("Not Used")
@@ -241,8 +241,8 @@ export default function Home() {
             </div>
             
             <div className="flex justify-center w-screen">
-              <div className="location-group flex justify-center gap-10 md:scale-[60%] mt-10 scale-[50%]">
-                  <input type="radio" name="location" value="/api/forsale" id="choice1" defaultChecked></input>
+              <div className="location-group flex justify-center gap-10 md:scale-[60%] mt-10 scale-[40%]">
+                  <input type="radio" name="location" value="/api/forsale/availability" id="choice1" defaultChecked></input>
                   <label htmlFor="choice1" className="text-white text-3xl font-bold">Geckos</label>
 
                   <input type="radio" name="location" value="/api/forsale/males" id="choice2"></input>
@@ -253,6 +253,8 @@ export default function Home() {
 
                   <input type="radio" name="location" value="/api/forsale/plants" id="choice4"></input>
                   <label htmlFor="choice4" className="text-white text-3xl font-bold">Plants</label>
+                  <input type="radio" name="location" value="/api/forsale/prints" id="choice5"></input>
+                  <label htmlFor="choice5" className="text-white text-3xl font-bold">3D Prints</label>
               </div>
             </div>
             <div id="add" className="flex justify-center pt-10">

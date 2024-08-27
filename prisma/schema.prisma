@@ -46,7 +46,20 @@ model Plants {
   price       String
 }
 
-model TestGecko {
+model Availability {
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  description String
+  image1      String
+  image2      String
+  image3      String
+  image4      String
+  issale      String
+  name        String
+  oldprice    String
+  price       String
+}
+
+model Prints {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
   description String
   image1      String

@@ -13,7 +13,7 @@ import { prisma } from "@/app/lib/prisma";
 export async function GET() {
   const time = Date.now();
   
-  const cursor = await prisma.females.findMany({select: {id: true, name: true, price: true, image1: true , issale: true, oldprice: true, description: true}, orderBy: {id: 'desc'}})
+  const cursor = await prisma.availability.findMany({select: {id: true, name: true, price: true, image1: true , issale: true, oldprice: true, description: true}, orderBy: {id: 'desc'}})
   const newvar = (Date.now() - time);
   
   return Response.json(cursor);
@@ -23,7 +23,7 @@ export async function POST(request: Request){
   const files = await request.formData()
 
   const client = await connect;
-  client.db("Products").collection("Females").insertOne({
+  client.db("Products").collection("Availability").insertOne({
     name: files.get("name"),
     price: files.get("price"),
     description: files.get("description"),
@@ -49,22 +49,22 @@ export async function PUT(request: Request){
   const id = files.get("id2") as string
   if (await url1 != "")
     {
-      client.db("Products").collection("Females").findOneAndUpdate({"_id": new ObjectId(id)}, {$set: { "image1": await url1 }})
+      client.db("Products").collection("Availability").findOneAndUpdate({"_id": new ObjectId(id)}, {$set: { "image1": await url1 }})
     }
   if (await url2 != "")
     {
-      client.db("Products").collection("Females").findOneAndUpdate({"_id": new ObjectId(id)}, {$set: { "image2": await url2 }})
+      client.db("Products").collection("Availability").findOneAndUpdate({"_id": new ObjectId(id)}, {$set: { "image2": await url2 }})
     }
   if (await url3 != "")
     {
-      client.db("Products").collection("Females").findOneAndUpdate({"_id": new ObjectId(id)}, {$set: { "image3": await url3 }})
+      client.db("Products").collection("Availability").findOneAndUpdate({"_id": new ObjectId(id)}, {$set: { "image3": await url3 }})
     }
   if (await url4 != "")
     {
-      client.db("Products").collection("Females").findOneAndUpdate({"_id": new ObjectId(id)}, {$set: { "image4": await url4 }})
+      client.db("Products").collection("Availability").findOneAndUpdate({"_id": new ObjectId(id)}, {$set: { "image4": await url4 }})
     }
 
-    client.db("Products").collection("Females").findOneAndUpdate({"_id": new ObjectId(id)}, {$set: { "name": files.get("name"), "price": files.get("price"), "description": files.get("description"), "issale" : files.get("issale"), "oldprice" : files.get("oldprice") }})
+    client.db("Products").collection("Availability").findOneAndUpdate({"_id": new ObjectId(id)}, {$set: { "name": files.get("name"), "price": files.get("price"), "description": files.get("description"), "issale" : files.get("issale"), "oldprice" : files.get("oldprice") }})
 
   return Response.json({message: "successfully edited the gecko"})
 }
@@ -74,7 +74,7 @@ export async function DELETE(request: Request)
   const client = await connect;
   const files = await request.formData()
   const id = files.get("id") as string
-  client.db("Products").collection("Females").findOneAndDelete({"_id": new ObjectId(id)})
+  client.db("Products").collection("Availability").findOneAndDelete({"_id": new ObjectId(id)})
 
   return Response.json({message: "successfully removed the gecko"})
 }
