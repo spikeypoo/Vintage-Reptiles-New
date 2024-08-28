@@ -70,7 +70,7 @@ export async function PUT(request: Request){
 
     let isExist = await client.db("Products").collection("Plants").find({"_id": new ObjectId(id)}).toArray()
     const image = isExist[0].image1 as string
-    if ("stripeid" in isExist[0] == false)
+    if (isExist[0].price != "" && "stripeid" in isExist[0] == false)
     {
       const res = await stripe.products.create({
         name: files.get("name"),
@@ -92,7 +92,7 @@ export async function PUT(request: Request){
         default_price: price.id
       })
     }
-    else
+    else if (isExist[0].price != "")
     {
       const old = isExist[0].priceid
       const price = await stripe.prices.create({

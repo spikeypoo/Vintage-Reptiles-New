@@ -8,6 +8,7 @@ import { type NextRequest } from 'next/server'
 import { stringify } from "querystring";
 import { ObjectId } from 'bson';
 import { prisma } from "@/app/lib/prisma";
+import stripe from "@/app/lib/stripe"
 
     
 export async function GET() {
@@ -66,7 +67,52 @@ export async function PUT(request: Request){
     }
 
     client.db("Products").collection("Prints").findOneAndUpdate({"_id": new ObjectId(id)}, {$set: { "name": files.get("name"), "price": files.get("price"), "description": files.get("description"), "issale" : files.get("issale"), "oldprice" : files.get("oldprice") }})
+    let isExist = await client.db("Products").collection("Prints").find({"_id": new ObjectId(id)}).toArray()
+    const image = isExist[0].image1 as string
+    if (isExist[0].price != "" && "stripeid" in isExist[0] == false)
+    {
+      const res = await stripe.products.create({
+        name: files.get("name"),
+        images: [image],
+        shippable: true,
+      })
 
+      client.db("Products").collection("Prints").findOneAndUpdate({"_id": new ObjectId(id)}, {$set: { "stripeid": res.id }})
+
+      const price = await stripe.prices.create({
+        currency: "cad",
+        unit_amount: files.get("price") * 100,
+        product: res.id
+      })
+
+      client.db("Products").collection("Prints").findOneAndUpdate({"_id": new ObjectId(id)}, {$set: { "priceid": price.id }})
+
+      const newproduct = await stripe.products.update(res.id, {
+        default_price: price.id
+      })
+    }
+    else if (isExist[0].price != "")
+    {
+      const old = isExist[0].priceid
+      const price = await stripe.prices.create({
+        currency: "cad",
+        unit_amount: files.get("price") * 100,
+        product: isExist[0].stripeid
+      })
+
+      await stripe.products.update(isExist[0].stripeid, {
+        name: isExist[0].name,
+        images: [isExist[0].image1],
+        default_price: price.id
+      })
+
+      stripe.prices.update(isExist[0].priceid, {
+        active: false
+      })
+
+
+      client.db("Products").collection("Prints").findOneAndUpdate({"_id": new ObjectId(id)}, {$set: { "priceid": price.id }})
+    }
   return Response.json({message: "successfully edited the gecko"})
 }
 

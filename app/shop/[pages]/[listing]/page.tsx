@@ -127,7 +127,7 @@ export default function ListingDetails({ params }) {
                                     </div>
                                 )}
                             </div>
-                            <p className={(listingData.issale === "true") ? "text-red-500 text-3xl" : "text-white text-3xl"}>${listingData.price}.00</p>
+                            {listingData.price !== "" && (<p className={(listingData.issale === "true") ? "text-red-500 text-3xl" : "text-white text-3xl"}>${listingData.price}.00</p>)}
                             {listingData.issale === "true" && (
                                 <div className="line-through text-white text-3xl">
                                     ${listingData.oldprice}.00
@@ -138,7 +138,7 @@ export default function ListingDetails({ params }) {
                             <br />
                             <p className="text-white align-top text-xl outline rounded-sm outline-offset-[10px] w-[400px] outline-2 md:w-auto" dangerouslySetInnerHTML={{ __html: listingData.description.replace(/(\n)+/g, '<br />') }} />
                             <br /><br />
-                            <div id="addbutton" className="font-bold text-white bg-[#9d00ff] w-[175px] h-[50px] flex items-center justify-center rounded-full text-lg outline outline-3 scale-[110%] cursor-pointer hover:brightness-75" onClick={handleAdd}>Add to cart</div>
+                            {listingData.price !== "" && (<div id="addbutton" className="font-bold text-white bg-[#9d00ff] w-[175px] h-[50px] flex items-center justify-center rounded-full text-lg outline outline-3 scale-[110%] cursor-pointer hover:brightness-75" onClick={handleAdd}>Add to cart</div>)}
                         </div>
                     </div>
                 </div>
