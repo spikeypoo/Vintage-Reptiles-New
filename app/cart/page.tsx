@@ -36,9 +36,8 @@ export default function CartDetails() {
     }, []);
 
     const redirectToCheckout = async () => {
-
         try {
-        const stripe = await loadStripe("pk_test_51PQlcqRsYE4iOwmATSNfZbDIrnNvIERCh6n35L6RS3PjmFVjDx5hNNYHsGZaFYpTOjmOr6jv6F2uiV9uSGQWw8xC00joWLR4hc");
+        const stripe = await loadStripe("pk_live_51PQlcqRsYE4iOwmAYRRGhtl24Vnvc9mkZ37LB5PlJl8XcHVbTf0B0T3h7Ey7y28URqdIITb48aM9jjZ7wjuCPKKb00utiqhUVv");
         console.log(stripe)
 
         let holder = JSON.parse(localStorage.getItem("Cart"));
@@ -62,7 +61,11 @@ export default function CartDetails() {
             
         const {sessionId} = await checkoutResponse.json();
         console.log(sessionId)
-        const stripeError = await stripe.redirectToCheckout({sessionId});
+        stripe.redirectToCheckout({ sessionId }).then(function (result) {
+          if (result.error) {
+            console.error(result.error.message);
+          }
+       });
 
         if (stripeError) {
             console.error(stripeError);

@@ -62,7 +62,7 @@ export default function RootLayout({
           <SpeedInsights />
         </div>
         <div className="flex fixed bottom-0 w-screen h-[30px] md:h-[35px] bg-[#161414] border-t justify-center items-center text-transparent">
-          <Link href="./" className="transition ease-in-out duration-150 text-sm md:text-sm hover:scale-110 hover:rotate-2 bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 bg-clip-text font-bold">
+          <Link href="/" className="transition ease-in-out duration-150 text-sm md:text-sm hover:scale-110 hover:rotate-2 bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 bg-clip-text font-bold">
               Made with ❤️ in Canada
           </Link>
         </div>

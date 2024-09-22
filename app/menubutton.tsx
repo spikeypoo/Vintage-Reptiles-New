@@ -60,7 +60,7 @@ export default function MenuButton() {
             <div className="-z-10">
                 <ul className={modalOpen ? "transition ease-in-out duration-[500ms] absolute transform text-white opacity-100 shadow-xl bg-[#161414] w-screen left-0 h-screen top-0" : "transition ease-in-out duration-[500ms] absolute transform rounded-md text-white opacity-0 left-0 top-0 w-screen pointer-events-none blur-sm bg-[#1c1a1b]"}>
                     <div className="pt-[60px]">
-                        <li><Link href="./"><div onClick={() => modalConfig()} className="relative left-1/2 -translate-x-1/2 w-96 h-16 pt-4 text-2xl rounded-t-md transition ease-in-out cursor-pointer">
+                        <li><Link href="/"><div onClick={() => modalConfig()} className="relative left-1/2 -translate-x-1/2 w-96 h-16 pt-4 text-2xl rounded-t-md transition ease-in-out cursor-pointer">
                             <div className={modalOpen ? "transition ease-out duration-[350ms] absolute left-1/2 -translate-x-1/2 opacity-100" : "transition ease-out duration-[500ms] absolute left-1/2 -translate-x-1/2 -translate-y-10 opacity-0"}>
                                 <div className="transition ease-in-out duration-150 text-white hover:text-[#cb18db]">
                                     Home

@@ -9,6 +9,8 @@ const cartDetails = await req.json();
 
 let lineItems = (Object.values(cartDetails.details))
 
+console.log("testing")
+
 try {
 const session = await stripe.checkout.sessions.create({
 shipping_address_collection: {allowed_countries: ['CA']},
@@ -38,7 +40,7 @@ shipping_options: [{
           amount: 0,
           currency: 'cad',
         },
-        display_name: 'Canada REPTILE Shipping. Choose this option if your purchase ONLY includes reptiles.',
+        display_name: 'Canada REPTILE Shipping. You will be contacted for a shipping quote.',
         delivery_estimate: {
           minimum: {
             unit: 'business_day',
@@ -49,12 +51,22 @@ shipping_options: [{
             value: 2,
           },
         },
+}},
+{shipping_rate_data: {
+        type: 'fixed_amount',
+        fixed_amount: {
+          amount: 0,
+          currency: 'cad',
+        },
+        display_name: 'E-Transfer: shop@vintagereptiles.com',
+        delivery_estimate: {
+        },
 }}],
-payment_method_types: ["card"],
+payment_method_types: ["card", "afterpay_clearpay"],
 line_items: lineItems,
 mode: "payment",
 success_url: `${headersList.get("origin")}/thank-you`,
-cancel_url: `${headersList.get("origin")}/`,
+cancel_url: `${headersList.get("origin")}/cart`,
 });
 
 return  NextResponse.json({sessionId: session.id});
