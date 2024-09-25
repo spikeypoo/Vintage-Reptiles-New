@@ -15,8 +15,8 @@ export async function POST(request: Request){
   const files = await request.formData()
 
   stripe.products.create({
-    name: files.name
-    images: [files.image]
-    shippable: true
+    name: files.name,
+    images: [files.image],
+    shippable: true,
   })
 }

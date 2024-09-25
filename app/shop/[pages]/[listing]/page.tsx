@@ -68,10 +68,12 @@ export default function ListingDetails({ params }) {
     const openModal = (index) => {
         setCurrentIndex(index);
         setModalOpen(true);
+        document.body.classList.add("overflow-hidden")
     };
 
     const closeModal = () => {
         setModalOpen(false);
+        document.body.classList.remove("overflow-hidden")
     };
 
     const nextImage = () => {
@@ -169,13 +171,12 @@ export default function ListingDetails({ params }) {
                             <div className="w-[100%] h-[1px] bg-white mt-[15px] mb-[15px]"></div>
                             <p className="text-white align-top text-xl w-[400px] w-[300px]" dangerouslySetInnerHTML={{ __html: listingData.description.replace(/(\n)+/g, '<br />') }} />
                             <br /><br />
-                            {listingData.price !== "" && (<div id="addbutton" className="font-bold text-white bg-[#9d00ff] w-[175px] h-[50px] flex items-center justify-center rounded-full text-lg outline outline-3 scale-[110%] cursor-pointer hover:brightness-75" onClick={handleAdd}>Add to cart</div>)}
+                            {listingData.price !== "" && (<div id="addbutton" className="font-bold text-white bg-[#9d00ff] w-[175px] h-[50px] flex items-center justify-center rounded-full text-lg outline outline-3 scale-[110%] cursor-pointer hover:brightness-75 drop-shadow-md" onClick={handleAdd}>Add to cart</div>)}
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Modal */}
             {isModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
                     <button className="absolute top-4 right-4 text-white text-4xl drop-shadow-lg" onClick={closeModal}>×</button>
