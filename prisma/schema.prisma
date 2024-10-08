@@ -18,6 +18,7 @@ model Females {
   name        String
   oldprice    String
   price       String
+  stock       String @default("1")
 }
 
 model Males {
@@ -31,6 +32,7 @@ model Males {
   name        String
   oldprice    String
   price       String
+  stock       String @default("1")
 }
 
 model Plants {
@@ -44,6 +46,7 @@ model Plants {
   name        String
   oldprice    String
   price       String
+  stock       String @default("1")
 }
 
 model Availability {
@@ -57,6 +60,7 @@ model Availability {
   name        String
   oldprice    String
   price       String
+  stock       String @default("1")
 }
 
 model Prints {
@@ -70,4 +74,5 @@ model Prints {
   name        String
   oldprice    String
   price       String
+  stock       String @default("1")
 }

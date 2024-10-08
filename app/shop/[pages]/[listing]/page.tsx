@@ -11,6 +11,8 @@ export default function ListingDetails({ params }) {
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setModalOpen] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0); // To track which image is focused
+    const [itemID, setID] = useState();
+    const [currPage, setPage] = useState();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -18,6 +20,8 @@ export default function ListingDetails({ params }) {
             let items = params.listing.split("-");
             body.append("id", items[1]);
             body.append("sitePage", items[0]);
+            setID(items[1])
+            setPage(items[0])
             fetch("/api/forsale/getlisting", {method: "POST", body, cache: 'force-cache'})
                 .then(async function(result) {
                     const dat = await result.json();
@@ -55,7 +59,7 @@ export default function ListingDetails({ params }) {
         }
         else
         {
-            current[params.listing.split("-")[1]] = {name: listingData.name, price: listingData.price, image: listingData.image1, quantity: 1, priceID: listingData.priceid}
+            current[params.listing.split("-")[1]] = {name: listingData.name, price: listingData.price, image: listingData.image1, quantity: 1, priceID: listingData.priceid, currpage: currPage, id: itemID}
             console.log(current)
             localStorage.setItem("Cart", JSON.stringify(current))
         }
@@ -153,6 +157,7 @@ export default function ListingDetails({ params }) {
                             </div>
                         </div>
                         <div className="absolute md:static md:pr-[140px] md:pb-[80px] pb-[140px]">
+                            {listingData.price !== "" && parseInt(listingData.stock) > 0 && (<div className="absolute right-[40px] top-[5px] text-white text-lg font-bold md:right-[150px]">Stock: {listingData.stock}</div>)}
                             <div className="relative">
                                 {listingData.issale === "true" && (
                                     <div className="absolute top-[29px] left-[315px] md:-top-[36px] md:left-[10px] scale-[150%] bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg">
@@ -160,10 +165,10 @@ export default function ListingDetails({ params }) {
                                     </div>
                                 )}
                             </div>
-                            {listingData.price !== "" && (<p className={(listingData.issale === "true") ? "text-red-500 text-3xl" : "text-white text-3xl"}>${listingData.price}.00</p>)}
+                            {listingData.price !== "" && (<p className={(listingData.issale === "true") ? "text-red-500 text-3xl" : "text-white text-3xl"}>${parseFloat(listingData.price).toFixed(2)}</p>)}
                             {listingData.issale === "true" && (
                                 <div className="line-through text-white text-3xl">
-                                    ${listingData.oldprice}.00
+                                    ${parseFloat(listingData.oldprice).toFixed(2)}
                                 </div>
                             )}
                             <br />
@@ -171,7 +176,8 @@ export default function ListingDetails({ params }) {
                             <div className="w-[100%] h-[1px] bg-white mt-[15px] mb-[15px]"></div>
                             <p className="text-white align-top text-xl w-[400px] w-[300px]" dangerouslySetInnerHTML={{ __html: listingData.description.replace(/(\n)+/g, '<br />') }} />
                             <br /><br />
-                            {listingData.price !== "" && (<div id="addbutton" className="font-bold text-white bg-[#9d00ff] w-[175px] h-[50px] flex items-center justify-center rounded-full text-lg outline outline-3 scale-[110%] cursor-pointer hover:brightness-75 drop-shadow-md" onClick={handleAdd}>Add to cart</div>)}
+                            {listingData.price !== "" && parseInt(listingData.stock) > 0 && (<div id="addbutton" className="font-bold text-white bg-[#9d00ff] w-[175px] h-[50px] flex items-center justify-center rounded-full text-lg outline outline-3 scale-[110%] cursor-pointer hover:brightness-75 drop-shadow-md" onClick={handleAdd}>Add to cart</div>)}
+                            {parseInt(listingData.stock) <= 0 && <div className="font-bold text-white bg-[#9d00ff] w-[175px] h-[50px] flex items-center justify-center rounded-full text-lg outline outline-3 scale-[110%] brightness-50 drop-shadow-md">Out of Stock!</div>}
                         </div>
                     </div>
                 </div>

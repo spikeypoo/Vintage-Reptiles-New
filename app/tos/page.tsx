@@ -17,7 +17,7 @@ export default function Home() {
           <div className="font-bold text-center"><br></br>Located in Vaughan, Ontario Canada<br/>
           Shipping within Canada only<br/><br/></div>
 
-          <br/><div className="font-bold text-3xl text-[#9d00ff]">Geckos</div>
+          <br/><div className="font-bold text-3xl text-[#cb18db]">Geckos</div>
           <div className="italic font-bold pt-[10px]">Updated June 1st 2024<br/><br/></div>
           <div className="w-[100%] bg-white h-[1px]"></div><br/>
 
@@ -82,7 +82,7 @@ export default function Home() {
 
 
           <br/><br/>
-          <div className="font-bold text-3xl text-[#9d00ff]">Plants</div>
+          <div className="font-bold text-3xl text-[#cb18db]">Plants</div>
           <div className="italic font-bold pt-[10px]">Updated June 1st 2024<br/><br/></div>
           <div className="w-[100%] bg-white h-[1px]"></div><br/>
 

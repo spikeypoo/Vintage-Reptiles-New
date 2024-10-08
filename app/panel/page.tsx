@@ -27,7 +27,7 @@ const resizeFile = (file) =>
   });
 
 export default function Home() {
-    const [formData, setFormData] = useState({name: "",description: "",price: ""});
+    const [formData, setFormData] = useState({name: "",description: "",price: "",stock: ""});
     const [image1Data, setimg1Data] = useState()
     const [image2Data, setimg2Data] = useState()
     const [image3Data, setimg3Data] = useState()
@@ -37,6 +37,7 @@ export default function Home() {
 
     const [isSale, setSale] = useState(false)
     const [olderPrice, setOldPrice] = useState("Not Used")
+    const [itemStock, setStock] = useState()
 
     useEffect(()=>{ 
         fetch(routeData).then(async function(result) {
@@ -57,6 +58,7 @@ export default function Home() {
               oldprice={element.oldprice}
               id={element.id}
               routeData={routeData}
+              stock={element.stock}
             />
           ));
           let container = document.getElementById("edit2")
@@ -188,6 +190,7 @@ export default function Home() {
       body.append("name", formData.name)
       body.append("description", formData.description)
       body.append("price", formData.price)
+      body.append("stock", formData.stock)
       if (isSale)
         {
           body.append("issale", "true")
@@ -276,7 +279,11 @@ export default function Home() {
                       <label className="flex justify-center">
                         <input className="rounded-lg pb-2 bg-gray-700 text-gray-200 border border-gray-600 p-2.5" type="text" onChange={handleSaleChange2}/>
                       </label>
-                    </div>
+                    </div> <br/>
+                    <div className="pb-1 text-white text-xl flex justify-center">Stock</div>
+                    <label className="flex justify-center">
+                        <input className="rounded-lg pb-2 bg-gray-700 text-gray-200 border border-gray-600 p-2.5" type="text" value={formData.stock} name="stock" onChange={handleChange}/>
+                    </label>
                     <div className="text-white pb-1 text-xl pt-10 flex justify-center">Description</div>
                     <label className="flex justify-center">
                         <textarea className="rounded-lg pb-2 bg-gray-700 text-gray-200 border border-gray-600 p-2.5" value={formData.description} name="description" onChange={handleChange}/>
@@ -301,13 +308,13 @@ export default function Home() {
                 </form>
             </div>
             <div id="edit" className="flex justify-center hidden">
-              <div id="edit2" className="absolute md:flex max-w-[1000px] w-[90%] gap-[40px] md:flex-wrap">
+              <div id="edit2" className="absolute md:flex max-w-[1000px] w-[90%] gap-[40px] md:flex-wrap pt-[100px]">
                 Editing
               </div>  
             </div>
             
             <div id="remove" className="flex justify-center hidden">
-              <div id="remove2" className="absolute md:flex max-w-[1000px] w-[90%] gap-[40px] md:flex-wrap">
+              <div id="remove2" className="absolute md:flex max-w-[1000px] w-[90%] gap-[40px] md:flex-wrap pt-[100px]">
                 Editing
               </div>  
             </div>
@@ -316,7 +323,7 @@ export default function Home() {
   );
 }
 
-const Card = ({name, description, price, image1, image2, image3, image4, issale, oldprice, id, routeData}) => {
+const Card = ({name, description, price, image1, image2, image3, image4, issale, oldprice, id, routeData, stock}) => {
     const [isClicked, setIsClicked] = useState(false);
   
     const handleClick = () => {
@@ -326,16 +333,34 @@ const Card = ({name, description, price, image1, image2, image3, image4, issale,
   
     return (
       <div>
-          <div className="w-[200px] relative md:block left-1/2 -translate-x-1/2 scale-125 mb-[80px] md:left-0 md:-translate-x-0 md:scale-100 md:mb-0 mt-10">
-            <div className="flex md:flex-wrap md:flex-row">
-              <div className="translate ease-in-out hover:scale-105 duration-200">
-                <p className="text-center text-white text-lg pb-[5px]">{name}</p>
-                <img onClick={handleClick} src={image1} width={200} height={200} alt="Listing" className="transition ease-in-out w-[200px] h-[200px] outline outline-4 outline-white rounded-lg cursor-pointer drop-shadow-xl duration-200"></img>
-                <p className={issale ? "text-center text-white text-lg pt-[5px]" : "text-center text-white text-lg pt-[5px]"}>${price}.00</p>
+        <div className="w-[200px] relative md:block left-1/2 -translate-x-1/2 scale-125 mb-[110px] md:left-0 md:-translate-x-0 md:scale-100 md:mb-[32px]">
+          <div className="flex md:flex-wrap md:flex-row">
+            <div className="relative translate ease-in-out hover:scale-105 duration-200">
+              <div className="flex justify-center">
+                <p className="text-center text-white text-lg pb-[5px] md:absolute md:top-0 md:-translate-y-[100%]">{name}</p>
               </div>
+              <img onClick={handleClick} src={image1} width={200} height={200} alt="Listing" className="transition ease-in-out w-[200px] h-[200px] outline outline-4 outline-white rounded-lg cursor-pointer drop-shadow-xl duration-200"></img>
+              {price !== "" && (<p className={(issale === "true") ? "text-center text-red-500 text-lg pt-[5px]" : "text-center text-white text-lg pt-[5px]"}>${parseFloat(price).toFixed(2)}</p>)}
+              {issale === "true" && (
+                <div className="line-through text-center text-white text-lg -translate-y-1">
+                  ${parseFloat(oldprice).toFixed(2)}
+                </div>
+              )}
+              {issale === "true" && (
+                <div className="absolute bottom-0 right-0 mb-5 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg">
+                  Sale!
+                </div>
+              )}
+              {parseInt(stock) <= 0 && <div className="flex justify-center bottom-0 right-0">
+                  <div className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg">
+                    Out of Stock!
+                  </div>
+                </div>
+              }
             </div>
           </div>
-          <ModalEdit onClose={() => setIsClicked(false)} isClicked={isClicked} name={name} description={description} price={price} image1={image1} image2={image2} image3={image3} image4={image4} id={id} issale2={issale} routeData={routeData} oldprice={oldprice}/>
+        </div>
+        <ModalEdit onClose={() => setIsClicked(false)} isClicked={isClicked} name={name} description={description} price={price} image1={image1} image2={image2} image3={image3} image4={image4} id={id} issale2={issale} routeData={routeData} oldprice={oldprice} stock={stock}/>
       </div>
     );
   }
@@ -350,24 +375,36 @@ const Card = ({name, description, price, image1, image2, image3, image4, issale,
   
     return (
       <div>
-          <div className="w-[200px] relative md:block left-1/2 -translate-x-1/2 scale-125 mb-[80px] md:left-0 md:-translate-x-0 md:scale-100 md:mb-0 mt-10">
-            <div className="flex md:flex-wrap md:flex-row">
-              <div className="translate ease-in-out hover:scale-105 duration-200">
-                <p className="text-center text-white text-lg pb-[5px]">{name}</p>
-                <img onClick={handleClick} src={image1} width={200} height={200} alt="Listing" className="transition ease-in-out w-[200px] h-[200px] outline outline-4 outline-white rounded-lg cursor-pointer drop-shadow-xl duration-200"></img>
-                <p className={issale ? "text-center text-white text-lg pt-[5px]" : "text-center text-white text-lg pt-[5px]"}>${price}.00</p>
+        <div className="w-[200px] relative md:block left-1/2 -translate-x-1/2 scale-125 mb-[110px] md:left-0 md:-translate-x-0 md:scale-100 md:mb-[32px]">
+          <div className="flex md:flex-wrap md:flex-row">
+            <div className="relative translate ease-in-out hover:scale-105 duration-200">
+              <div className="flex justify-center">
+                <p className="text-center text-white text-lg pb-[5px] md:absolute md:top-0 md:-translate-y-[100%]">{name}</p>
               </div>
+              <img onClick={handleClick} src={image1} width={200} height={200} alt="Listing" className="transition ease-in-out w-[200px] h-[200px] outline outline-4 outline-white rounded-lg cursor-pointer drop-shadow-xl duration-200"></img>
+              {price !== "" && (<p className={(issale === "true") ? "text-center text-red-500 text-lg pt-[5px]" : "text-center text-white text-lg pt-[5px]"}>${parseFloat(price).toFixed(2)}</p>)}
+              {issale === "true" && (
+                <div className="line-through text-center text-white text-lg -translate-y-1">
+                  ${parseFloat(oldprice).toFixed(2)}
+                </div>
+              )}
+              {issale === "true" && (
+                <div className="absolute bottom-0 right-0 mb-5 bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg">
+                  Sale!
+                </div>
+              )}
             </div>
           </div>
-          <ModalRemove onClose={() => setIsClicked(false)} isClicked={isClicked} name={name} description={description} price={price} image1={image1} image2={image2} image3={image3} image4={image4} id={id} routeData={routeData}/>
+        </div>
+        <ModalRemove onClose={() => setIsClicked(false)} isClicked={isClicked} name={name} description={description} price={price} image1={image1} image2={image2} image3={image3} image4={image4} id={id} routeData={routeData}/>
       </div>
     );
   }
 
-  const ModalEdit = ({ onClose, isClicked, name, description, price, image1, image2, image3, image4, id, issale2, routeData, oldprice}) => {
+  const ModalEdit = ({ onClose, isClicked, name, description, price, image1, image2, image3, image4, id, issale2, routeData, oldprice, stock}) => {
     const [focused, setFocused] = useState(image1)
 
-    const [formData, setFormData] = useState({name: name ,description: description,price: price, oldprice: oldprice});
+    const [formData, setFormData] = useState({name: name ,description: description,price: price, oldprice: oldprice, stock: stock});
     const [image1Data, setimg1Data] = useState()
     const [image2Data, setimg2Data] = useState()
     const [image3Data, setimg3Data] = useState()
@@ -473,6 +510,7 @@ const Card = ({name, description, price, image1, image2, image3, image4, issale,
         body.append("name", formData.name)
         body.append("description", formData.description)
         body.append("price", formData.price)
+        body.append("stock", formData.stock)
         if (isSale)
           {
             body.append("issale", "true")
@@ -534,7 +572,11 @@ const Card = ({name, description, price, image1, image2, image3, image4, issale,
                       <label className="flex justify-center">
                         <input className="rounded-lg pb-2 bg-gray-700 text-gray-200 border border-gray-600 p-2.5" type="text" value={formData.oldprice} name="oldprice" onChange={handleSaleChange2}/>
                       </label>
-                    </div>
+                    </div> <br/>
+                    <div className="pb-1 text-white text-xl flex justify-center">Stock</div>
+                    <label className="flex justify-center">
+                        <input className="rounded-lg pb-2 bg-gray-700 text-gray-200 border border-gray-600 p-2.5" type="text" value={formData.stock} name="stock" onChange={handleChange}/>
+                    </label>
                     <div className="text-white pb-1 text-xl pt-10 flex justify-center">Description</div>
                     <label className="flex justify-center">
                         <textarea className="rounded-lg pb-2 bg-gray-700 h-[200px] text-gray-200 border border-gray-600 p-2.5" value={formData.description} name="description" onChange={handleChange}/>

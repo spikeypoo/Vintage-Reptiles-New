@@ -14,7 +14,7 @@ import stripe from "@/app/lib/stripe"
 export async function GET() {
   const time = Date.now();
   
-  const cursor = await prisma.availability.findMany({select: {id: true, name: true, price: true, image1: true , issale: true, oldprice: true, description: true}, orderBy: {id: 'desc'}})
+  const cursor = await prisma.availability.findMany({select: {id: true, name: true, price: true, image1: true , issale: true, oldprice: true, description: true, stock: true}, orderBy: {id: 'desc'}})
   const newvar = (Date.now() - time);
   
   return Response.json(cursor);
@@ -33,7 +33,8 @@ export async function POST(request: Request){
     image3: files.get("image3"),
     image4: files.get("image4"),
     issale: files.get("issale"),
-    oldprice: files.get("oldprice")
+    oldprice: files.get("oldprice"),
+    stock: files.get("stock")
   })
   return Response.json({message: "successfully uploaded the gecko"})
 }
@@ -65,7 +66,7 @@ export async function PUT(request: Request){
       client.db("Products").collection("Availability").findOneAndUpdate({"_id": new ObjectId(id)}, {$set: { "image4": await url4 }})
     }
 
-    client.db("Products").collection("Availability").findOneAndUpdate({"_id": new ObjectId(id)}, {$set: { "name": files.get("name"), "price": files.get("price"), "description": files.get("description"), "issale" : files.get("issale"), "oldprice" : files.get("oldprice") }})
+    client.db("Products").collection("Availability").findOneAndUpdate({"_id": new ObjectId(id)}, {$set: { "name": files.get("name"), "price": files.get("price"), "description": files.get("description"), "issale" : files.get("issale"), "oldprice" : files.get("oldprice"), "stock" : files.get("stock")}})
     let isExist = await client.db("Products").collection("Availability").find({"_id": new ObjectId(id)}).toArray()
     const image = isExist[0].image1 as string
     if (isExist[0].price != "" && "stripeid" in isExist[0] == false)

@@ -23,7 +23,6 @@ export default function CartDetails() {
             let count = 0
             for (const [key, value] of Object.entries(holder))
             {
-                console.log(value)
                 count += (value.price * value.quantity)
             }
             setTotal(count)
@@ -31,14 +30,12 @@ export default function CartDetails() {
 
             let current = Object.entries(holder)
             setCards(current)
-            console.log(current)
         }
     }, []);
 
     const redirectToCheckout = async () => {
         try {
         const stripe = await loadStripe("pk_live_51PQlcqRsYE4iOwmAYRRGhtl24Vnvc9mkZ37LB5PlJl8XcHVbTf0B0T3h7Ey7y28URqdIITb48aM9jjZ7wjuCPKKb00utiqhUVv");
-        console.log(stripe)
 
         let holder = JSON.parse(localStorage.getItem("Cart"));
 
@@ -47,8 +44,12 @@ export default function CartDetails() {
         for (const [key, value] of Object.entries(holder))
             {
                 details[key] = {}
-                details[key]["price"] = value.priceID
-                details[key]["quantity"] = value.quantity
+                details[key]["product"] = {}
+                details[key]["product"]["price"] = value.priceID
+                details[key]["product"]["quantity"] = value.quantity
+                details[key]["stocktrack"] = {}
+                details[key]["stocktrack"]["id"] = value.id
+                details[key]["stocktrack"]["currpage"] = value.currpage
             }
 
         const checkoutResponse = await  fetch('/api/checkout_sessions', {
@@ -59,8 +60,13 @@ export default function CartDetails() {
             body: JSON.stringify({details}),
             });
             
-        const {sessionId} = await checkoutResponse.json();
-        console.log(sessionId)
+        const ses = await checkoutResponse.json();
+        const {sessionId} = ses
+
+        if (ses.error == "At least one item isn't in stock!")
+        {
+          alert(ses.error)
+        }
         stripe.redirectToCheckout({ sessionId }).then(function (result) {
           if (result.error) {
             console.error(result.error.message);

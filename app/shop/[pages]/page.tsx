@@ -97,6 +97,7 @@ export default function PageDetails({ params }) {
               oldprice={element.oldprice}
               id={element.id}
               params={params}
+              stock={element.stock}
             />
           ))}
         </div>
@@ -116,7 +117,7 @@ export default function PageDetails({ params }) {
   );
 }
 
-const Card = ({ index, name, price, image1, issale, oldprice, id, params}) => {
+const Card = ({ index, name, price, image1, issale, oldprice, id, params, stock}) => {
   const [isClicked, setIsClicked] = useState(false);
   const toListing = "/shop/" + params.pages + "/" + params.pages + "-" + id
 
@@ -129,10 +130,10 @@ const Card = ({ index, name, price, image1, issale, oldprice, id, params}) => {
               <p className="text-center text-white text-lg pb-[5px] md:absolute md:top-0 md:-translate-y-[100%]">{name}</p>
             </div>
             <Link href={toListing}><Image src={image1} priority={true} width={200} height={200} alt="Listing" className="transition ease-in-out w-[200px] h-[200px] outline outline-4 outline-white rounded-lg cursor-pointer drop-shadow-xl duration-200"></Image></Link>
-            {price !== "" && (<p className={(issale === "true") ? "text-center text-red-500 text-lg pt-[5px]" : "text-center text-white text-lg pt-[5px]"}>${price}.00</p>)}
+            {price !== "" && (<p className={(issale === "true") ? "text-center text-red-500 text-lg pt-[5px]" : "text-center text-white text-lg pt-[5px]"}>${parseFloat(price).toFixed(2)}</p>)}
             {issale === "true" && (
               <div className="line-through text-center text-white text-lg -translate-y-1">
-                ${oldprice}.00
+                ${parseFloat(oldprice).toFixed(2)}
               </div>
             )}
             {issale === "true" && (
@@ -140,6 +141,12 @@ const Card = ({ index, name, price, image1, issale, oldprice, id, params}) => {
                 Sale!
               </div>
             )}
+            {parseInt(stock) <= 0 && <div className="flex justify-center bottom-0 right-0">
+                <div className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-lg">
+                  Out of Stock!
+                </div>
+              </div>
+            }
           </div>
         </div>
       </div>
