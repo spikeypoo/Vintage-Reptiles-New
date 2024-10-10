@@ -102,7 +102,7 @@ export default function CartDetails() {
           ))}
           {cards.length > 0 && <div className="flex justify-center"><div className="w-[90%] max-w-[1000px] h-[1px] bg-gray-400"></div></div>}
           <div className="md:ml-auto md:w-[500px]">
-            <div className="flex justify-center text-white text-xl pt-[40px]">Subtotal <span className="pl-[30px] text-lg">${totalPrice}.00 CAD</span></div>
+            <div className="flex justify-center text-white text-xl pt-[40px]">Subtotal <span className="pl-[30px] text-lg">${totalPrice.toFixed(2)} CAD</span></div>
             <div className="flex justify-center text-white text-sm pt-[15px]">Taxes and shipping are calculated during checkout</div>
             <div onClick={redirectToCheckout} className="flex justify-center text-white text-md pt-[45px]"><div className="w-[320px] bg-[#6d229b] text-center py-[10px] rounded-md font-bold transition ease-in-out duration-200 hover:bg-[#55197a] cursor-pointer">CHECK OUT</div></div>
           </div>

@@ -8,6 +8,8 @@ import { useState, useEffect } from 'react';
 export default function ListingDetails({ params }) {
     const [listingData, setData] = useState([]);
     const [focused, setFocused] = useState();
+    const [focusedT, setFocusedT] = useState();
+    const [isTransition, setT] = useState(false);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setModalOpen] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0); // To track which image is focused
@@ -183,18 +185,17 @@ export default function ListingDetails({ params }) {
                 </div>
             </div>
 
-            {isModalOpen && (
-                <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
+                <div className={`transition ease-in-out duration-[0ms] fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 ${isModalOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
                     <button className="absolute top-4 right-4 text-white text-4xl drop-shadow-lg" onClick={closeModal}>×</button>
                     <button className="absolute left-4 text-white text-4xl drop-shadow-lg py-[250px]" onClick={prevImage}>←</button>
+
                     <img 
                         src={focused} 
                         alt="Expanded Image" 
-                        className={`transition ease-in-out duration-[1000ms] max-w-full max-h-full`}
+                        className={`absolute transition ease-in-out duration-[200ms] max-w-full max-h-full ${isModalOpen ? 'opacity-100' : 'opacity-0 translate-y-10'}`}
                     />
                     <button className="absolute right-4 text-white text-4xl drop-shadow-lg py-[250px]" onClick={nextImage}>→</button>
                 </div>
-            )}
         </div>
     );
 }
